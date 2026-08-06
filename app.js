@@ -8,76 +8,72 @@ const PROBLEMS = [
   {
     id: 1,
     title: "Problem 1: 3D Force & Acceleration on a Ball",
-    description: "Determine the total acceleration on a ball (m = 0.05 kg) subjected to three forces (N) as shown in the figure below.",
+    description: "Determine the total acceleration on a ball (m = 0.05 kg) subjected to three forces (N) given by vector components: F₁ = -5î - 30k̂, F₂ = 25î - 10ĵ + 20k̂, and F₃ = -10î + 15ĵ.",
     imageSrc: "images/problem1.png",
     params: [
       { id: "m", label: "Mass (m)", min: 0.01, max: 0.50, step: 0.01, defaultVal: 0.05, unit: "kg", color: "#e2e8f0" },
-      { id: "f1", label: "Force F₁ (Downward)", min: 0.1, max: 5.0, step: 0.1, defaultVal: 0.5, unit: "N", color: "#f43f5e" },
-      { id: "f2", label: "Force F₂ (Up-Right)", min: 0.1, max: 5.0, step: 0.1, defaultVal: 1.2, unit: "N", color: "#38bdf8" },
-      { id: "theta2", label: "F₂ Angle (θ₂)", min: 0, max: 90, step: 1, defaultVal: 30, unit: "°", color: "#38bdf8" },
-      { id: "f3", label: "Force F₃ (Leftward)", min: 0.1, max: 5.0, step: 0.1, defaultVal: 0.8, unit: "N", color: "#f59e0b" }
+      { id: "f1x", label: "F₁ (x component)", min: -30, max: 30, step: 1, defaultVal: -5, unit: "N", color: "#f43f5e" },
+      { id: "f1z", label: "F₁ (z component)", min: -50, max: 50, step: 1, defaultVal: -30, unit: "N", color: "#f43f5e" },
+      { id: "f2x", label: "F₂ (x component)", min: -50, max: 50, step: 1, defaultVal: 25, unit: "N", color: "#38bdf8" },
+      { id: "f2y", label: "F₂ (y component)", min: -50, max: 50, step: 1, defaultVal: -10, unit: "N", color: "#38bdf8" },
+      { id: "f2z", label: "F₂ (z component)", min: -50, max: 50, step: 1, defaultVal: 20, unit: "N", color: "#38bdf8" },
+      { id: "f3x", label: "F₃ (x component)", min: -30, max: 30, step: 1, defaultVal: -10, unit: "N", color: "#f59e0b" },
+      { id: "f3y", label: "F₃ (y component)", min: -30, max: 30, step: 1, defaultVal: 15, unit: "N", color: "#f59e0b" }
     ],
     hintHtml: `
-      <p>💡 <strong>Think of this problem in 3 easy steps:</strong></p>
+      <p>💡 <strong>3D Vector Addition Strategy:</strong></p>
       <div class="beginner-step-box">
-        <strong>Step 1 — Separate forces into Horizontal (y) and Vertical (z) directions:</strong>
+        <strong>Step 1 — Add vector components along each axis (î, ĵ, k̂):</strong>
         <ul style="margin-left: 18px; margin-top: 4px;">
-          <li><strong>F₁</strong> pulls straight <em>down</em> (negative Z axis).</li>
-          <li><strong>F₃</strong> pulls straight <em>left</em> (negative Y axis).</li>
-          <li><strong>F₂</strong> pulls diagonally up and to the right! Break F₂ into a rightward pull (F₂ × cos θ₂) and an upward pull (F₂ × sin θ₂).</li>
+          <li><strong>X-axis (î)</strong>: Fnet_x = F₁x + F₂x + F₃x</li>
+          <li><strong>Y-axis (ĵ)</strong>: Fnet_y = F₁y + F₂y + F₃y</li>
+          <li><strong>Z-axis (k̂)</strong>: Fnet_z = F₁z + F₂z + F₃z</li>
         </ul>
       </div>
       <div class="beginner-step-box">
-        <strong>Step 2 — Combine the total pulls in each direction:</strong>
+        <strong>Step 2 — Calculate total Net Force magnitude:</strong>
         <ul style="margin-left: 18px; margin-top: 4px;">
-          <li>Net Horizontal Pull = (Rightward F₂ pull) − (Leftward F₃ pull)</li>
-          <li>Net Vertical Pull = (Upward F₂ pull) − (Downward F₁ pull)</li>
+          <li>Fnet = √(Fnet_x² + Fnet_y² + Fnet_z²)</li>
         </ul>
       </div>
       <div class="beginner-step-box">
-        <strong>Step 3 — Find total acceleration using Newton's 2nd Law (a = F / m):</strong>
+        <strong>Step 3 — Compute Acceleration (a = Fnet / m):</strong>
         <ul style="margin-left: 18px; margin-top: 4px;">
-          <li>Total Net Force = √(Horizontal Pull² + Vertical Pull²)</li>
-          <li>Acceleration (a) = Total Net Force ÷ Ball Mass (m)</li>
+          <li>a = Net Force ÷ Ball Mass (m)</li>
         </ul>
       </div>
     `,
     computeSolution: (vals) => {
-      const thetaRad = (vals.theta2 * Math.PI) / 180;
-      const f2y = vals.f2 * Math.cos(thetaRad);
-      const f2z = vals.f2 * Math.sin(thetaRad);
+      const Fnet_x = vals.f1x + vals.f2x + vals.f3x;
+      const Fnet_y = vals.f2y + vals.f3y;
+      const Fnet_z = vals.f1z + vals.f2z;
       
-      const Fnet_y = f2y - vals.f3;
-      const Fnet_z = f2z - vals.f1;
-      
-      const Fnet_mag = Math.sqrt(Fnet_y * Fnet_y + Fnet_z * Fnet_z);
+      const Fnet_mag = Math.sqrt(Fnet_x * Fnet_x + Fnet_y * Fnet_y + Fnet_z * Fnet_z);
       const accel_mag = Fnet_mag / vals.m;
-      const angle_deg = (Math.atan2(Fnet_z, Fnet_y) * 180 / Math.PI + 360) % 360;
 
       const stepsHtml = `
         <div class="math-step">
-          <strong>1. Force Components Breakdown:</strong><br>
-          • F₁ = (0.00, -${vals.f1.toFixed(2)}) N<br>
-          • F₂ = (${vals.f2.toFixed(2)} × cos ${vals.theta2}°, ${vals.f2.toFixed(2)} × sin ${vals.theta2}°) = (${f2y.toFixed(2)}, ${f2z.toFixed(2)}) N<br>
-          • F₃ = (-${vals.f3.toFixed(2)}, 0.00) N
+          <strong>1. Vector Component Summation:</strong><br>
+          • Fnet_x = (${vals.f1x}) + (${vals.f2x}) + (${vals.f3x}) = <strong>${Fnet_x.toFixed(2)} N î</strong><br>
+          • Fnet_y = (0) + (${vals.f2y}) + (${vals.f3y}) = <strong>${Fnet_y.toFixed(2)} N ĵ</strong><br>
+          • Fnet_z = (${vals.f1z}) + (${vals.f2z}) + (0) = <strong>${Fnet_z.toFixed(2)} N k̂</strong><br>
+          • Fnet Vector = (${Fnet_x.toFixed(2)}î + ${Fnet_y.toFixed(2)}ĵ + ${Fnet_z.toFixed(2)}k̂) N
         </div>
         <div class="math-step">
-          <strong>2. Net Force Components (Fnet):</strong><br>
-          • Fnet_y = ${f2y.toFixed(2)} - ${vals.f3.toFixed(2)} = <strong>${Fnet_y.toFixed(2)} N</strong><br>
-          • Fnet_z = ${f2z.toFixed(2)} - ${vals.f1.toFixed(2)} = <strong>${Fnet_z.toFixed(2)} N</strong><br>
-          • Fnet Magnitude = √(${Fnet_y.toFixed(2)}² + ${Fnet_z.toFixed(2)}²) = <strong>${Fnet_mag.toFixed(2)} N</strong>
+          <strong>2. Net Force Magnitude:</strong><br>
+          • Fnet = √[(${Fnet_x.toFixed(2)})² + (${Fnet_y.toFixed(2)})² + (${Fnet_z.toFixed(2)})²]<br>
+          • Fnet = √(${ (Fnet_x*Fnet_x + Fnet_y*Fnet_y + Fnet_z*Fnet_z).toFixed(2) }) = <strong>${Fnet_mag.toFixed(2)} N</strong>
         </div>
         <div class="math-step">
           <strong>3. Acceleration (a = Fnet / m):</strong><br>
-          • a = ${Fnet_mag.toFixed(2)} N / ${vals.m.toFixed(2)} kg = <strong>${accel_mag.toFixed(2)} m/s²</strong><br>
-          • Direction Angle = <strong>${angle_deg.toFixed(1)}°</strong> relative to positive horizontal axis
+          • a = ${Fnet_mag.toFixed(2)} N / ${vals.m.toFixed(2)} kg = <strong>${accel_mag.toFixed(2)} m/s²</strong>
         </div>
         <div class="final-answer-box">
-          Total Acceleration (a) = ${accel_mag.toFixed(2)} m/s² @ ${angle_deg.toFixed(1)}°
+          Total Acceleration (a) = ${accel_mag.toFixed(2)} m/s²
         </div>
       `;
 
-      return { Fnet_y, Fnet_z, Fnet_mag, accel_mag, angle_deg, stepsHtml };
+      return { Fnet_x, Fnet_y, Fnet_z, Fnet_mag, accel_mag, stepsHtml };
     },
     renderSvg: (svg, vals, sol, showSol) => {
       let html = drawGridAndAxes(svg, "y (Horizontal)", "z (Vertical)", 400, 300);
@@ -87,18 +83,19 @@ const PROBLEMS = [
         <text x="400" y="304" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">m</text>
       `;
 
-      const scale = 50;
+      const scale = 5;
 
-      const f1_len = vals.f1 * scale;
-      html += drawArrow(400, 300, 400, 300 + f1_len, "#f43f5e", `F₁ = ${vals.f1.toFixed(1)}N`);
+      const f1_y = 300 - vals.f1z * scale;
+      const f1_x = 400 + vals.f1x * scale;
+      html += drawArrow(400, 300, f1_x, f1_y, "#f43f5e", `F₁`);
 
-      const rad = (vals.theta2 * Math.PI) / 180;
-      const f2_x = 400 + (vals.f2 * scale) * Math.cos(rad);
-      const f2_y = 300 - (vals.f2 * scale) * Math.sin(rad);
-      html += drawArrow(400, 300, f2_x, f2_y, "#38bdf8", `F₂ = ${vals.f2.toFixed(1)}N (${vals.theta2}°)`);
+      const f2_x = 400 + vals.f2y * scale;
+      const f2_y = 300 - vals.f2z * scale;
+      html += drawArrow(400, 300, f2_x, f2_y, "#38bdf8", `F₂`);
 
-      const f3_len = vals.f3 * scale;
-      html += drawArrow(400, 300, 400 - f3_len, 300, "#f59e0b", `F₃ = ${vals.f3.toFixed(1)}N`);
+      const f3_x = 400 + vals.f3y * scale;
+      const f3_y = 300;
+      html += drawArrow(400, 300, f3_x, f3_y, "#f59e0b", `F₃`);
 
       if (showSol) {
         const net_x = 400 + sol.Fnet_y * scale;
@@ -107,12 +104,12 @@ const PROBLEMS = [
         html += `<line x1="400" y1="300" x2="${net_x}" y2="300" stroke="#10b981" stroke-dasharray="4" stroke-width="1.5" />`;
         html += `<line x1="${net_x}" y1="300" x2="${net_x}" y2="${net_y}" stroke="#10b981" stroke-dasharray="4" stroke-width="1.5" />`;
 
-        html += drawArrow(400, 300, net_x, net_y, "#10b981", `F_net = ${sol.Fnet_mag.toFixed(2)}N`, 3);
+        html += drawArrow(400, 300, net_x, net_y, "#10b981", `F_net = ${sol.Fnet_mag.toFixed(1)}N`, 3);
 
         html += `
           <g transform="translate(${net_x + 15}, ${net_y - 15})">
-            <rect x="0" y="0" width="160" height="32" rx="6" fill="#065f46" opacity="0.9" stroke="#34d399" stroke-width="1"/>
-            <text x="80" y="20" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="bold">a = ${sol.accel_mag.toFixed(2)} m/s²</text>
+            <rect x="0" y="0" width="170" height="32" rx="6" fill="#065f46" opacity="0.9" stroke="#34d399" stroke-width="1"/>
+            <text x="85" y="20" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="bold">a = ${sol.accel_mag.toFixed(2)} m/s²</text>
           </g>
         `;
       }
@@ -762,23 +759,19 @@ function loadProblem(index) {
   currentProblemIndex = index;
   const prob = PROBLEMS[index];
 
-  // Update UI Text & Image
   problemTag.textContent = `Problem ${prob.id} of 6`;
   problemTitle.textContent = prob.title;
   problemDescription.textContent = prob.description;
   problemImage.src = prob.imageSrc;
   currentProblemNum.textContent = prob.id;
 
-  // Update Pills Active State
   document.querySelectorAll('.pill-btn').forEach((btn, idx) => {
     btn.classList.toggle('active', idx === index);
   });
 
-  // Update Pagination Buttons
   prevProblemBtn.disabled = index === 0;
   nextProblemBtn.disabled = index === PROBLEMS.length - 1;
 
-  // Reset Visibility States
   isHintVisible = false;
   isSolutionVisible = false;
   hintCard.classList.add('hidden');
@@ -786,13 +779,11 @@ function loadProblem(index) {
   hintBtnText.textContent = "Show Beginner Hint";
   solutionBtnText.textContent = "Show Solution & Answer";
 
-  // Load Default Slider Values
   currentValues = {};
   prob.params.forEach(param => {
     currentValues[param.id] = param.defaultVal;
   });
 
-  // Render Sliders & Canvas
   renderSliders();
   hintContent.innerHTML = prob.hintHtml;
   updateView();

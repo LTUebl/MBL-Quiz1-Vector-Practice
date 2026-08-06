@@ -1,0 +1,9 @@
+# Scratch and temporary data
+scratch/
+*.txt
+*.converted.png
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

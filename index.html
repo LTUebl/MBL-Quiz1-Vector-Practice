@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biomechanics Mastery-Based Learning - Quiz 1 Vector Practice</title>
+  <!-- Google Fonts for modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation / Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-badge">LTU</div>
+        <div class="brand-text">
+          <h1>BME 3303 — Biomechanics</h1>
+          <p>Mastery-Based Learning Practice • Quiz #1 (Vectors)</p>
+        </div>
+      </div>
+
+      <div class="problem-selector-pills" id="problemSelectorPills">
+        <!-- JS dynamically fills problem pills 1-6 -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="main-container">
+    
+    <!-- Left Column: Problem Info & Interactive Control Sliders -->
+    <section class="control-card glass-panel">
+      <div class="problem-meta-header">
+        <div class="problem-tag" id="problemTag">Problem 1 of 6</div>
+        <h2 class="problem-title" id="problemTitle">Loading Problem...</h2>
+        <p class="problem-description" id="problemDescription"></p>
+
+        <!-- Original Diagram Image Card -->
+        <div class="original-diagram-container" id="diagramContainer">
+          <div class="diagram-label"><i data-lucide="image"></i> Original Quiz Diagram</div>
+          <div class="img-wrapper">
+            <img id="problemImage" src="" alt="Original Problem Diagram" class="problem-img" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Controls Header -->
+      <div class="controls-header">
+        <h3><i data-lucide="sliders"></i> Vector Controls & Parameters</h3>
+        <button class="reset-btn" id="resetSlidersBtn" title="Reset to original problem values">
+          <i data-lucide="rotate-ccw"></i> Reset Defaults
+        </button>
+      </div>
+
+      <!-- Dynamic Sliders Container -->
+      <div class="sliders-list" id="slidersList">
+        <!-- JS populates sliders dynamically -->
+      </div>
+
+      <!-- Action Buttons: Hint & Check Solution -->
+      <div class="action-buttons-group">
+        <button class="action-btn hint-btn" id="toggleHintBtn">
+          <i data-lucide="lightbulb"></i> <span id="hintBtnText">Show Beginner Hint</span>
+        </button>
+        <button class="action-btn solution-btn" id="toggleSolutionBtn">
+          <i data-lucide="check-circle-2"></i> <span id="solutionBtnText">Show Solution & Answer</span>
+        </button>
+      </div>
+
+      <!-- Hint Box (Initially Collapsed) -->
+      <div class="info-card hint-card hidden" id="hintCard">
+        <div class="card-header">
+          <i data-lucide="sparkles" class="hint-icon"></i>
+          <h4>Beginner Student Tip & Strategy</h4>
+        </div>
+        <div class="card-body" id="hintContent"></div>
+      </div>
+
+      <!-- Solution Box (Initially Collapsed) -->
+      <div class="info-card solution-card hidden" id="solutionCard">
+        <div class="card-header">
+          <i data-lucide="calculator" class="solution-icon"></i>
+          <h4>Step-by-Step Solution & Live Calculation</h4>
+        </div>
+        <div class="card-body" id="solutionContent"></div>
+      </div>
+    </section>
+
+    <!-- Right Column: Interactive Graphic Canvas -->
+    <section class="visualizer-card glass-panel">
+      <div class="visualizer-header">
+        <div class="visualizer-title">
+          <i data-lucide="compass"></i>
+          <h3>Interactive Vector Visualizer</h3>
+        </div>
+        <div class="visualizer-badges">
+          <span class="badge badge-primary" id="visualizerBadge">Interactive Vector Diagram</span>
+        </div>
+      </div>
+
+      <div class="canvas-wrapper">
+        <svg id="vectorCanvas" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+          <!-- JS dynamic SVG content will be injected here -->
+        </svg>
+      </div>
+
+      <!-- Vector Values Summary Legend -->
+      <div class="vector-legend" id="vectorLegend">
+        <!-- JS populates real-time values -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <button class="nav-arrow-btn prev-btn" id="prevProblemBtn">
+        <i data-lucide="chevron-left"></i> Previous Problem
+      </button>
+
+      <div class="progress-indicator">
+        <span id="currentProblemNum">1</span> / <span>6</span> Problems
+      </div>
+
+      <button class="nav-arrow-btn next-btn" id="nextProblemBtn">
+        Next Problem <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
